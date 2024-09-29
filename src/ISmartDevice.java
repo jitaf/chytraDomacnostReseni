@@ -18,4 +18,6 @@ public interface ISmartDevice {
      * @return Řetězec reprezentující aktuální stav zařízení.
      */
     public String stav();
+
+    public int getPocetSpusteni();
 }

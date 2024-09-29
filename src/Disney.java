@@ -1,17 +1,18 @@
-public class Netflix implements IStreamingService {
+public class Disney implements IStreamingService {
     private boolean prehravani;
     private int pocetSpusteni;
+
     @Override
     public void prehrat(String nazevTitulu) {
         prehravani = true;
         pocetSpusteni++;
-        System.out.println("Přehrávání na Netflixu: " + nazevTitulu);
+        System.out.println("Přehrávání na Hulu: " + nazevTitulu);
     }
 
-      @Override
+    @Override
     public void stop() {
         prehravani = false;
-        System.out.println("Netflix přehrávání ukončeno.");
+        System.out.println("Disney přehrávání ukončeno.");
     }
 
     @Override
@@ -25,7 +26,6 @@ public class Netflix implements IStreamingService {
 
     @Override
     public String toString(){
-        return "Sluzba Netflix.";
+        return "Sluzba Disney.";
     }
 }
-

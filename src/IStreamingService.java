@@ -10,12 +10,11 @@ public interface IStreamingService {
     public void prehrat(String nazevTitulu);
 
     /**
-     * Pozastaví aktuálně přehrávaný obsah.
-     */
-    public void pauza();
-
-    /**
      * Zastaví aktuálně přehrávaný obsah.
      */
     public void stop();
+
+    public boolean prehrava();
+
+    public int getPocetSpusteni();
 }

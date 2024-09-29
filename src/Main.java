@@ -7,6 +7,7 @@ public class Main {
         DomaciAsistent asistent = new DomaciAsistent(scanner);
 
         while (true) {
+            System.out.println("***************************************************************");
             System.out.println("\n--- Domácí Asistent Menu ---");
             System.out.println("1. Přidat nové zařízení");
             System.out.println("2. Odebrat zařízení");
@@ -15,7 +16,11 @@ public class Main {
             System.out.println("5. Vypnout všechna zařízení");
             System.out.println("6. Přehrát na všech službách");
             System.out.println("7. Ovládání termostatu");
-            System.out.println("8. Konec");
+            System.out.println("8. Vypisovat zapnutá zařízení a aktivní služby");
+            System.out.println("9. Změnit název zařízení");
+            System.out.println("10. Vypisovat statistiky");
+            System.out.println("11. Konec");
+            System.out.println("***************************************************************");
             System.out.print("Vyberte možnost: ");
 
             int volba = scanner.nextInt();
@@ -44,11 +49,21 @@ public class Main {
                     asistent.ovladaniTermostatu();
                     break;
                 case 8:
+                    asistent.vypisZapnutaZarizeniASluzby();
+                    break;
+                case 9:
+                    asistent.zmenNazevZarizeni();
+                    break;
+                case 10:
+                    asistent.vypisStatistiky();
+                    break;
+                case 11:
                     System.out.println("Konec programu.");
                     return;
                 default:
                     System.out.println("Neplatná volba, zkuste to znovu.");
             }
+            System.out.println("______________________________________________________________");
         }
     }
 }

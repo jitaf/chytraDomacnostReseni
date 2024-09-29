@@ -16,6 +16,7 @@ public class DomaciAsistent {
         this.scanner = scanner;
         sluzby.add(new Netflix());
         sluzby.add(new Spotify());
+        sluzby.add(new Disney());
     }
 
     /**
@@ -51,6 +52,12 @@ public class DomaciAsistent {
      * Odebere chytré zařízení ze seznamu spravovaných zařízení.
      */
     public void odeberZarizeni() {
+        System.out.println("Aktualne mate tyto zarizeni: ");
+        for (ISmartDevice device: zarizeni) {
+            System.out.print(device.toString() + ", ");
+        }
+        System.out.println();
+
         System.out.println("Zadejte název zařízení, které chcete odebrat:");
         String nazev = scanner.nextLine();
         for (int i = 0; i < zarizeni.size(); i++) {
@@ -69,7 +76,7 @@ public class DomaciAsistent {
     public void vypisZarizeni() {
         System.out.println("Seznam spravovaných zařízení:");
         for (ISmartDevice z : zarizeni) {
-            System.out.println(z.stav());
+            System.out.println(z.toString());
         }
     }
 
@@ -116,6 +123,14 @@ public class DomaciAsistent {
      * Pokud termostat s daným názvem není nalezen, zobrazí chybovou zprávu.
      */
     public void ovladaniTermostatu() {
+        System.out.println("Aktualne mate tyto termostaty: ");
+        for (ISmartDevice device: zarizeni) {
+            if (device instanceof SmartThermostat){
+                System.out.print(device.toString() + ", ");
+            }
+            System.out.println();
+        }
+
         System.out.println("Zadejte název termostatu, který chcete ovládat:");
         String nazev = scanner.nextLine();
         for (ISmartDevice z : zarizeni) {
@@ -128,6 +143,89 @@ public class DomaciAsistent {
             }
         }
         System.out.println("Termostat s názvem " + nazev + " nebyl nalezen.");
+    }
+
+    /**
+     * Vypíše všechna zapnutá chytrá zařízení a všechny streamovací služby, které nejsou stopnute
+     */
+    public void vypisZapnutaZarizeniASluzby() {
+        System.out.println("Zapnutá chytrá zařízení:");
+        for (ISmartDevice z : zarizeni) {
+            if (z.stav().equals("Zapnuto")) {
+                System.out.println(z);
+            }
+        }
+
+        System.out.println("Streamovací služby, které nejsou stopnuté:");
+        for (IStreamingService s : sluzby) {
+            if (!s.prehrava()) {
+                System.out.println(s);
+            }
+        }
+    }
+
+    /**
+     * Umožní uživateli změnit název existujícího chytrého zařízení.
+     */
+    public void zmenNazevZarizeni() {
+        System.out.println("Zadejte aktuální název zařízení, které chcete přejmenovat:");
+        String staryNazev = scanner.nextLine();
+        for (ISmartDevice z : zarizeni) {
+            if (z.stav().equals(staryNazev)) {
+                System.out.print("Zadejte nový název zařízení: ");
+                String novyNazev = scanner.nextLine();
+                if (z instanceof SmartLight) {
+                    ((SmartLight) z).setNazev(novyNazev);
+                } else if (z instanceof SmartThermostat) {
+                    ((SmartThermostat) z).setNazev(novyNazev);
+                }
+                System.out.println("Zařízení bylo přejmenováno na " + novyNazev);
+                return;
+            }
+        }
+        System.out.println("Zařízení s názvem " + staryNazev + " nebylo nalezeno.");
+    }
+
+    /**
+     * Vypíše statistiky používání zařízení a služeb.
+     */
+    public void vypisStatistiky() {
+        ISmartDevice nejvicePouzivaneZarizeni = null;
+        IStreamingService nejvicePouzivanaSluzba = null;
+        int soucetSpusteniZarizeni = 0;
+        int soucetSpusteniSluzeb = 0;
+
+        for (ISmartDevice z : zarizeni) {
+            if (nejvicePouzivaneZarizeni == null || z.getPocetSpusteni() > nejvicePouzivaneZarizeni.getPocetSpusteni()) {
+                nejvicePouzivaneZarizeni = z;
+            }
+            soucetSpusteniZarizeni += z.getPocetSpusteni();
+        }
+
+        for (IStreamingService s : sluzby) {
+            if (nejvicePouzivanaSluzba == null || s.getPocetSpusteni() > nejvicePouzivanaSluzba.getPocetSpusteni()) {
+                nejvicePouzivanaSluzba = s;
+            }
+            soucetSpusteniSluzeb += s.getPocetSpusteni();
+        }
+
+
+        System.out.print("Nejvíce používané zařízení: ");
+        if (nejvicePouzivaneZarizeni != null) {
+            System.out.println(nejvicePouzivaneZarizeni);
+        } else {
+            System.out.println("Žádné");
+        }
+
+        System.out.print("Nejvíce používaná služba: ");
+        if (nejvicePouzivanaSluzba != null) {
+            System.out.println(nejvicePouzivanaSluzba);
+        } else {
+            System.out.println("Žádná");
+        }
+
+        System.out.println("Celkový počet spuštění všech zařízení: " + soucetSpusteniZarizeni);
+        System.out.println("Celkový počet spuštění všech služeb: " + soucetSpusteniSluzeb);
     }
 }
 

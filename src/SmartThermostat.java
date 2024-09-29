@@ -7,6 +7,7 @@ class SmartThermostat implements ISmartDevice {
     private String nazev;
     private boolean zapnuto;
     private double teplota;
+    private int pocetSpusteni;
 
     /**
      * Vytvoří nový chytrý termostat s daným názvem a počáteční teplotou.
@@ -20,12 +21,17 @@ class SmartThermostat implements ISmartDevice {
         this.zapnuto = false;
     }
 
+    public void setNazev(String novyNazev) {
+        this.nazev = nazev;
+    }
+
     /**
      * Zapne chytrý termostat a nastaví teplotu.
      */
     @Override
     public void zapni() {
         zapnuto = true;
+        pocetSpusteni++;
         System.out.println(nazev + " je zapnutý, teplota nastavena na " + teplota + "°C.");
     }
 
@@ -61,4 +67,15 @@ class SmartThermostat implements ISmartDevice {
         this.teplota = novaTeplota;
         System.out.println("Teplota nastavena na " + teplota + "°C.");
     }
+
+    public int getPocetSpusteni() {
+        return pocetSpusteni;
+    }
+
+    @Override
+    public String toString(){
+        return "Zarizeni termostat  s nazvemn "+ nazev + " je " + this.stav();
+    }
+
+
 }

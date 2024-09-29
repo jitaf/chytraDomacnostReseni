@@ -4,6 +4,7 @@
  */
 class Spotify implements IStreamingService {
     private boolean prehravani;
+    private int pocetSpusteni;
 
     /**
      * Přehrává zadaný titul na Spotify.
@@ -13,16 +14,8 @@ class Spotify implements IStreamingService {
     @Override
     public void prehrat(String nazevTitulu) {
         prehravani = true;
+        pocetSpusteni++;
         System.out.println("Přehrávání na Spotify: " + nazevTitulu);
-    }
-
-    /**
-     * Pozastaví aktuálně přehrávaný obsah na Spotify.
-     */
-    @Override
-    public void pauza() {
-        prehravani = false;
-        System.out.println("Spotify přehrávání pozastaveno.");
     }
 
     /**
@@ -32,5 +25,19 @@ class Spotify implements IStreamingService {
     public void stop() {
         prehravani = false;
         System.out.println("Spotify přehrávání ukončeno.");
+    }
+
+    public int getPocetSpusteni() {
+        return pocetSpusteni;
+    }
+
+    @Override
+    public boolean prehrava() {
+        return prehravani;
+    }
+
+    @Override
+    public String toString(){
+        return "Sluzba Spotify.";
     }
 }
